@@ -24,7 +24,7 @@ actor CborgSpendProvider: UsageProvider {
     init(
         config: EsnotchConfig = .load(),
         fetch: @escaping @Sendable (EsnotchConfig) -> Void = { config in
-            try? EsnotchShell.captureScript(path: config.cborgScript)
+            _ = try? EsnotchShell.captureScript(path: config.cborgScript)
         },
         cacheData: @escaping @Sendable (EsnotchConfig) throws -> Data = { config in
             try EsnotchShell.readJSON(path: config.cborgCache)
@@ -80,8 +80,8 @@ actor CborgSpendProvider: UsageProvider {
     static let maxCacheAge: TimeInterval = 5 * 60
 
     nonisolated static func snapshot(
-        user: UserInfo,
-        keys: [Key],
+        user: Response.UserInfo,
+        keys: [Response.Key],
         now: Date = Date()
     ) -> ProviderSnapshot {
         let budget = user.maxBudget ?? 0

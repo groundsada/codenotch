@@ -26,7 +26,7 @@ actor EsnetVPNProvider: UsageProvider {
             try EsnotchShell.captureScript(path: config.vpnctlPath, arguments: ["status"])
         },
         connect: @escaping @Sendable (EsnotchConfig) -> Void = { config in
-            EsnotchShell.captureScript(path: config.vpnctlPath, arguments: ["esnet"])
+            _ = try? EsnotchShell.captureScript(path: config.vpnctlPath, arguments: ["esnet"])
         }
     ) {
         self.config = config

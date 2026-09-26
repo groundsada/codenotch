@@ -26,7 +26,7 @@ actor EsnetSpendProvider: UsageProvider {
     init(
         config: EsnotchConfig = .load(),
         refresh: @escaping @Sendable (EsnotchConfig) -> Void = { config in
-            try? EsnotchShell.captureScript(path: config.esnetGatewayScript)
+            _ = try? EsnotchShell.captureScript(path: config.esnetGatewayScript)
         },
         stateData: @escaping @Sendable (EsnotchConfig) throws -> Data = { config in
             try EsnotchShell.readJSON(path: config.esnetGatewayState)
