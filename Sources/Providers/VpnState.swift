@@ -43,9 +43,9 @@ enum VpnState {
                     id: "tunnel",
                     label: L10n.t("Tunnel"),
                     usedFraction: up ? 1.0 : 0.0,
-                    bandOverride: up ? .ample : .critical,
                     usedText: up ? "UP" : "DOWN",
                     detail: detail,
+                    bandOverride: up ? .ample : .critical,
                     prefersUsedText: true
                 )
             ],
