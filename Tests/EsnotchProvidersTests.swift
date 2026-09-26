@@ -1,4 +1,5 @@
 import XCTest
+@testable import Codenotch
 
 /// The ESnet/LBL edition's providers, with everything injected or parsed from
 /// fixture text — no subprocess ever runs, so the essence (what the output
