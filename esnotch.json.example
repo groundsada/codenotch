@@ -1,0 +1,12 @@
+{
+  "_comment": "Optional overrides for the ESnet/LBL edition. Every key is optional; empty string means 'use the default'. Defaults are this Mac's layout: vpnctl + spend fetchers in ~/.hermes/scripts, state in ~/.hermes/state.",
+  "vpnctlPath": "~/.hermes/scripts/vpnctl",
+  "esnetGatewayScript": "~/.hermes/scripts/esnet_gateway.py",
+  "esnetGatewayState": "~/.hermes/state/esnet_gateway.json",
+  "cborgScript": "~/.hermes/scripts/cborg_spend.sh",
+  "cborgCache": "~/.hermes/state/cborg_spend.json",
+  "viscosityBundleID": "com.viscosityvpn.Viscosity",
+  "ciscoBundleID": "com.cisco.secureclient.gui",
+  "ciscoProfile": "LBL-MFA-VPN",
+  "esnetConnectionName": "ESnet VPN West (split tunnel) - IPv6 workaround"
+}

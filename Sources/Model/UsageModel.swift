@@ -502,7 +502,11 @@ struct ProviderSnapshot: Identifiable, Equatable {
         case "ollama":       return L10n.t("Enter an Ollama API key in Settings, or export OLLAMA_API_KEY", locale: locale)
         case "ollama-local": return L10n.t("Start Ollama to monitor your local models", locale: locale)
         case "lmstudio":     return L10n.t("Start LM Studio's server to monitor your local models", locale: locale)
-        default:           return L10n.t("Sign in to \(displayName) to read your usage", locale: locale)
+        case "esnet-vpn":    return L10n.t("Connect the ESnet VPN in Viscosity to read its status", locale: locale)
+        case "lbl-vpn":      return L10n.t("Connect the LBL VPN (Cisco Secure Client) to read its status", locale: locale)
+        case "esnet-spend":  return L10n.t("ESnet gateway spend needs the ESnet VPN — its metrics host resolves via the tunnel", locale: locale)
+        case "cborg-spend":  return L10n.t("CBorg spend needs the LBL VPN — the API is IP-locked to LBLnet", locale: locale)
+        default:           return L10n.t("Sign in to \\(displayName) to read your usage", locale: locale)
         }
     }
 

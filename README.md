@@ -409,3 +409,49 @@ See [CONTRIBUTING.md](CONTRIBUTING.md).
 ## License
 
 [MIT](LICENSE) © 2026 Vinz
+
+---
+
+## ESnet/LBL edition (this fork)
+
+This fork keeps Codenotch's notch, but the rings it draws are the ESnet/LBL
+toolchain's, not the coding assistants':
+
+| Ring | What it shows | Source |
+|---|---|---|
+| **ESnet VPN** | Viscosity `ESnet VPN West (split tunnel) - IPv6 workaround` up/down | `~/.hermes/scripts/vpnctl status` (same truth the menu-bar widget uses) |
+| **LBL VPN** | Cisco Secure Client `LBL-MFA-VPN` up/down | `vpnctl status` |
+| **ESnet spend** | Month-to-date $ vs monthly budget, per-model split | `~/.hermes/scripts/esnet_gateway.py` → `~/.hermes/state/esnet_gateway.json` (public `/metrics/`, no keys) |
+| **CBorg spend** | Month-to-date $ vs budget, per-key split | `~/.hermes/scripts/cborg_spend.sh` → `~/.hermes/state/cborg_spend.json` (key stays in `~/.config/claude-cborg.env`, never in this app) |
+
+No logging, no tokens, no API keys: everything is read from the same scripts
+and state files the existing Hammerspoon widget already runs, so the two UIs
+never disagree. The AI-assistant providers are still built in and available in
+Settings; the ESnet/LBL rings start enabled on a first launch.
+
+### Configuration
+
+All paths have defaults for this machine. To override (say, a different
+toolchain directory), copy `esnotch.json.example` to
+`~/Library/Application Support/Codenotch/esnotch.json`.
+
+### Requirements
+
+- The helper scripts under `~/.hermes/scripts` (`vpnctl`, `esnet_gateway.py`,
+  `cborg_spend.sh`) and their state in `~/.hermes/state`.
+- The same VPN clients as the widget: Viscosity (ESnet) and Cisco Secure
+  Client (LBL).
+
+### Notes
+
+- Polling is the app's own 60-second cycle; `vpnctl status` is a ping + one
+  CLI call, so it costs nothing. The CBorg fetch is skipped entirely unless
+  its cache is older than five minutes.
+- When the ESnet VPN is down the spend ring's gateway state freezes; after six
+  hours the ring goes stale (grey) rather than pretending the number is fresh.
+- CBorg's API answers 403 from home/ESnet — the ring tells you exactly that
+  (IP-locked to LBLnet, refresh via the LBL VPN) instead of showing an error
+  wall.
+
+Upstream: <https://github.com/vinzdg/codenotch> — keep in sync with
+`git fetch upstream && git merge upstream/main`.

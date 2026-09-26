@@ -41,6 +41,14 @@ enum ProviderGlyph: String, Codable, Equatable {
     /// from the local Qwen model brand in `.qwen` — a ring wearing this one is
     /// the platform account, not a model.
     case qianwenAI = "qianwenai"
+    /// The ESnet tunnel (Viscosity) — fork: ESnet/LBL edition.
+    case esnet
+    /// The LBL tunnel (Cisco Secure Client) — fork: ESnet/LBL edition.
+    case lbl
+    /// The ESnet gateway's monthly dollar spend — fork: ESnet/LBL edition.
+    case esnetSpend = "esnet-spend"
+    /// The CBorg account's spend — fork: ESnet/LBL edition.
+    case cborg
 
     /// If an asset with this name is in the bundle it wins over the traced
     /// outline — drop a PDF/SVG export from Figma in and it is picked up.
@@ -86,6 +94,7 @@ enum ProviderGlyph: String, Codable, Equatable {
         // with `rsvg-convert -w 512`. Claude's outline fills 0.997 at 0.97, so
         // the same scale brings this ink to the same extent.
         case .qianwenAI: return 0.97
+        case .esnet, .lbl, .esnetSpend, .cborg: return 1.0
         case .devin, .qwen, .gemma, .meta, .deepseek, .mistral: return 1.0
         }
     }
@@ -113,6 +122,10 @@ enum ProviderGlyph: String, Codable, Equatable {
         // A fallback only: glyph-minimax in the asset catalogue is drawn instead.
         case .minimax: return GlyphOutline.minimax
         case .ollama, .ollamaLocal: return GlyphOutline.ollama
+        case .esnet: return GlyphOutline.esnet
+        case .lbl: return GlyphOutline.lbl
+        case .esnetSpend: return GlyphOutline.esnetSpend
+        case .cborg: return GlyphOutline.cborg
         }
     }
 }

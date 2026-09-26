@@ -163,7 +163,8 @@ final class AppDelegate: NSObject, NSApplicationDelegate {
             let customProviders: [UsageProvider] = preferences.customEndpoints.filter(\.isEnabled).map { endpoint in
                 CustomEndpointProvider(endpoint: endpoint)
             }
-            let allProviders: [UsageProvider] = claudeProviders
+            let allProviders: [UsageProvider] = [EsnetVPNProvider(), LblVPNProvider(), EsnetSpendProvider(), CborgSpendProvider()]
+                + claudeProviders
                 + [CursorLocalProvider()]
                 + codexProfiles.map { CodexLocalProvider(profile: $0) }
                 + antigravityProfiles.map { AntigravityProvider(profile: $0) }

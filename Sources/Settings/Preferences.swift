@@ -1028,8 +1028,16 @@ final class Preferences: ObservableObject {
     /// Claude and Codex stay on for a first install and for a newly discovered
     /// profile. Everyone else starts off.
     nonisolated static func isDefaultOnFamily(_ providerID: String) -> Bool {
-        ClaudeProfile.isClaude(providerID: providerID)
+        Self.isEsnotch(providerID)
+            || ClaudeProfile.isClaude(providerID: providerID)
             || CodexProfile.isCodex(providerID: providerID)
+    }
+
+    /// The ESnet/LBL family. These rings are the reason this fork is
+    /// installed, so — like Claude and Codex upstream — they start connected
+    /// on a first launch instead of hiding behind the settings toggle.
+    nonisolated static func isEsnotch(_ providerID: String) -> Bool {
+        ["esnet-vpn", "lbl-vpn", "esnet-spend", "cborg-spend"].contains(providerID)
     }
 
     /// Model cells are `providerID:model:…`. A new loaded model is not a new
