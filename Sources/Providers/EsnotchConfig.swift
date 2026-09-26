@@ -7,7 +7,7 @@ import Foundation
 /// fetcher, the CBorg fetcher), so the two UIs can never disagree. Every path
 /// can be overridden in `~/Library/Application Support/Codenotch/esnotch.json`
 /// (or `$ESNOTCH_CONFIG_PATH`, which tests use to point at a fixture tree).
-struct EsnotchConfig: Sendable, Equatable {
+struct EsnotchConfig: Sendable, Equatable, Decodable {
     var home: String
     var vpnctlPath: String
     var esnetGatewayScript: String
@@ -79,5 +79,36 @@ struct EsnotchConfig: Sendable, Equatable {
         if !other.ciscoBundleID.isEmpty { ciscoBundleID = other.ciscoBundleID }
         if !other.ciscoProfile.isEmpty { ciscoProfile = other.ciscoProfile }
         if !other.esnetConnectionName.isEmpty { esnetConnectionName = other.esnetConnectionName }
+    }
+}
+
+extension EsnotchConfig {
+    /// Every key is optional: a file with one override still reads. Kept in
+    /// an extension so the memberwise initializer survives.
+    init(from decoder: Decoder) throws {
+        let container = try decoder.container(keyedBy: CodingKeys.self)
+        home = try container.decodeIfPresent(String.self, forKey: .home) ?? ""
+        vpnctlPath = try container.decodeIfPresent(String.self, forKey: .vpnctlPath) ?? ""
+        esnetGatewayScript = try container.decodeIfPresent(String.self, forKey: .esnetGatewayScript) ?? ""
+        esnetGatewayState = try container.decodeIfPresent(String.self, forKey: .esnetGatewayState) ?? ""
+        cborgScript = try container.decodeIfPresent(String.self, forKey: .cborgScript) ?? ""
+        cborgCache = try container.decodeIfPresent(String.self, forKey: .cborgCache) ?? ""
+        viscosityBundleID = try container.decodeIfPresent(String.self, forKey: .viscosityBundleID) ?? ""
+        ciscoBundleID = try container.decodeIfPresent(String.self, forKey: .ciscoBundleID) ?? ""
+        ciscoProfile = try container.decodeIfPresent(String.self, forKey: .ciscoProfile) ?? ""
+        esnetConnectionName = try container.decodeIfPresent(String.self, forKey: .esnetConnectionName) ?? ""
+    }
+
+    enum CodingKeys: String, CodingKey {
+        case home
+        case vpnctlPath
+        case esnetGatewayScript
+        case esnetGatewayState
+        case cborgScript
+        case cborgCache
+        case viscosityBundleID
+        case ciscoBundleID
+        case ciscoProfile
+        case esnetConnectionName
     }
 }
