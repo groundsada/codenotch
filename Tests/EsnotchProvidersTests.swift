@@ -45,11 +45,12 @@ final class EsnotchProvidersTests: XCTestCase {
     func testEsnetSpendSnapshot() throws {
         let json = Data("""
         {"month":"2026-09","spend":118.124,"budget":500.0,\
-        "updated":"2026-09-25T15:36:06Z",\
+        "updated":"2026-09-26T12:00:00Z",\
         "by_model":[{"model":"claude-opus-5","spend":32.18}]}
         """.utf8)
         let state = try JSONDecoder().decode(EsnetSpendProvider.State.self, from: json)
-        let snap = EsnetSpendProvider.snapshot(state: state, now: Date())
+        let now = try XCTUnwrap(ISO8601DateFormatter().date(from: "2026-09-26T13:00:00Z"))
+        let snap = EsnetSpendProvider.snapshot(state: state, now: now)
         XCTAssertEqual(snap.id, "esnet-spend")
         XCTAssertEqual(snap.headline?.id, "month")
         XCTAssertEqual(snap.headline?.usedFraction ?? 0, 118.124 / 500, accuracy: 0.0001)
