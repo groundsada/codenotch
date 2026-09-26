@@ -663,7 +663,7 @@ final class UsageStore: ObservableObject {
         // A scheduled task can be disconnected before it begins; avoid reading
         // its credential at all, as well as rejecting an obsolete response.
         guard acceptsResult(from: provider, generation: generation) else {
-            Log.usage.notice("store: \(provider.id, privacy: .public) rejected before fetch (gen=\(generation, privacy: .public) current=\(String(describing: generations[provider.id]), privacy: .public))")
+            Log.usage.notice("store: \(provider.id, privacy: .public) rejected before fetch (gen=\(generation, privacy: .public) current=\(String(describing: self.generations[provider.id]), privacy: .public))")
             return nil
         }
         Log.usage.notice("store: fetching \(provider.id, privacy: .public)")
