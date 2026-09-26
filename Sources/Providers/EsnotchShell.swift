@@ -10,7 +10,6 @@ enum EsnotchShell {
     static let timeout: TimeInterval = 15
 
     static func capture(executable: URL, arguments: [String] = []) throws -> String {
-        Log.usage.notice("esnotch-shell: spawn \(executable.lastPathComponent, privacy: .public) \(arguments.joined(separator: " "), privacy: .public)")
         let process = Process()
         process.executableURL = executable
         process.arguments = arguments
@@ -30,7 +29,6 @@ enum EsnotchShell {
 
         let data = pipe.fileHandleForReading.readDataToEndOfFile()
         process.waitUntilExit()
-        Log.usage.notice("esnotch-shell: \(executable.lastPathComponent, privacy: .public) exited \(process.terminationStatus)")
 
         guard process.terminationStatus == 0 else {
             throw UsageProviderError.badResponse(status: Int(process.terminationStatus))

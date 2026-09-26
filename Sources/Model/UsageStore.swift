@@ -447,9 +447,7 @@ final class UsageStore: ObservableObject {
     func refresh() async {
         // The provider tasks below do not inherit this task's cancellation.
         guard !Task.isCancelled else { return }
-        let candidates = orderedProviders.filter { !disconnected.contains($0.id) }
-        Log.usage.notice("store: refresh candidates: \(candidates.map(\.id).joined(separator: ","), privacy: .public)")
-        let tasks = candidates.map {
+        let tasks = orderedProviders.filter { !disconnected.contains($0.id) }.map {
             beginRefresh($0)
         }
         for task in tasks { await task.value }
@@ -662,11 +660,7 @@ final class UsageStore: ObservableObject {
     private func snapshot(from provider: UsageProvider, generation: Int) async -> ProviderSnapshot? {
         // A scheduled task can be disconnected before it begins; avoid reading
         // its credential at all, as well as rejecting an obsolete response.
-        guard acceptsResult(from: provider, generation: generation) else {
-            Log.usage.notice("store: \(provider.id, privacy: .public) rejected before fetch (gen=\(generation, privacy: .public) current=\(String(describing: self.generations[provider.id]), privacy: .public))")
-            return nil
-        }
-        Log.usage.notice("store: fetching \(provider.id, privacy: .public)")
+        guard acceptsResult(from: provider, generation: generation) else { return nil }
         do {
             let fresh = try await provider.fetchSnapshot()
             guard acceptsResult(from: provider, generation: generation) else { return nil }
